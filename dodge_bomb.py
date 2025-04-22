@@ -1,7 +1,7 @@
 import os
 import sys
 import pygame as pg
-
+import random
 
 WIDTH, HEIGHT = 1100, 650
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +21,9 @@ def main():
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
     bb_img.set_colorkey((0, 0, 0))
     bb_rct = bb_img.get_rect()
-    bb_rct.center = (300, 200)
+    rx = random.randint(0,1100)
+    ry = random.randint(0,650)
+    bb_rct.center = (rx, ry)
 
     while True:
         for event in pg.event.get():
@@ -41,7 +43,6 @@ def main():
         kk_rct.move_ip(sum_mv)
         screen.blit(kk_img, kk_rct)
         screen.blit(bb_img, bb_rct) #ばくだんのblit
-        bb_rct.move_ip()
         pg.display.update() #画面の更新
         tmr += 1
         clock.tick(50)
