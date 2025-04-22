@@ -41,6 +41,7 @@ def main():
         if key_lst[pg.K_RIGHT]:
             sum_mv = DELTA["K_RIGHT"]
         kk_rct.move_ip(sum_mv)
+        bb_rct.move_ip(5,-5) #ばくだんの移動
         screen.blit(kk_img, kk_rct)
         screen.blit(bb_img, bb_rct) #ばくだんのblit
         pg.display.update() #画面の更新
