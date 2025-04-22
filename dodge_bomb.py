@@ -10,7 +10,6 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 def main():
     pg.display.set_caption("逃げろ！こうかとん") #ウィンドウタイトル
     screen = pg.display.set_mode((WIDTH, HEIGHT)) #スクリーン
-    #screen.blit(bb_img, [100, 100])
     bg_img = pg.image.load("fig/pg_bg.jpg")   #背景画像のロード
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9) #0.9倍画像
     kk_rct = kk_img.get_rect()
@@ -46,21 +45,3 @@ if __name__ == "__main__":
     main()
     pg.quit()
     sys.exit()
-
-
-(x,y) = (1100, 650)
-
-#円の生成　練習2
-bb_img = pg.Surface((20, 20))
-pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
-bb_img.set_colorkey((0, 0, 0))
-#円のblit
-screen.blit(bb_img, [300, 200])
-#爆弾のRect抽出
-bb_rct = bb_img.get_rect()
-vx = 5
-vy = 5
-bb_rct.move_ip(vx, vy)
-#画面外に出ないようにする作業 #練習3
-#def check_bound():
-    #if kk_rct
