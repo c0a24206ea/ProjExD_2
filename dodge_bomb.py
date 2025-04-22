@@ -4,7 +4,6 @@ import sys
 import pygame as pg
 import time
 
-
 WIDTH, HEIGHT = 1100, 650
 DELTA = {pg.K_UP : (0,-5) , pg.K_DOWN : (0,+5), pg.K_LEFT : (-5,0), pg.K_RIGHT : (5,0) }  #辞書生成　練習1
 
@@ -35,10 +34,8 @@ def gameover(screen: pg.Surface) -> None:
     fonto  = pg.font.Font(None, 80)
     text = fonto.render("Game Over", True, (255,255,255))
     cry_img = pg.image.load("../Lecture02/fig/8.png")
-
     pg.draw.rect(blackout, (0,0,0), (0, 0, WIDTH, HEIGHT))
     blackout.set_alpha(200)
-
     screen.blit(blackout, (0,0))
     screen.blit(text, [400, 300])
     screen.blit(cry_img, (350, 300))
@@ -60,9 +57,9 @@ def acc(bb_imgs: list):
         bb_imgs.append(bb_img)
     return bb_imgs
 
-def get_kk_img(sum_mv: tuple, [int, int]) -> pg.Surface:
-    if sum_mv[0] == 0 and sum_mv[1] == -5:
-        pg.transform.rotate(kk_img, )
+#def get_kk_img(sum_mv: tuple, [int, int]) -> pg.Surface:
+    #if sum_mv[0] == 0 and sum_mv[1] == -5:
+        #pg.transform.rotate(kk_img, )
 
 
 def main():
@@ -70,14 +67,13 @@ def main():
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("fig/pg_bg.jpg")    
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
-    kk_img = get_kk_img((0, 0))
-    kk_img = get_kk_img(tuple(sum_mv))
+    #kk_img = get_kk_img((0, 0))
+    #kk_img = get_kk_img(tuple(sum_mv))
     kk_rct = kk_img.get_rect()
     kk_rct.center = 300, 200
     tmr = 0
     bb_accs = [a for a in range(1,11)]  #加速度のリスト 10段階
     vx, vy = +5, -5
-
     bb_img = pg.Surface((20, 20))  #円の生成　練習2
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
     bb_rct = bb_img.get_rect()
@@ -88,8 +84,6 @@ def main():
             if event.type == pg.QUIT: 
                 return
         screen.blit(bg_img, [0, 0]) 
-
-
         #if kk_rct.colliderect(bb_rct):  #こうかとんRectと爆弾Rectの衝突の判定
             #print("GAMEOVER")
             #return
