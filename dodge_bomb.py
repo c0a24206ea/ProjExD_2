@@ -17,6 +17,11 @@ def main():
     clock = pg.time.Clock()
     tmr = 0
     DELTA = {"K_UP" : (0,-5) , "K_DOWN" : (0,5), "K_LEFT" : (-5,0), "K_RIGHT" : (5,0) } #辞書生成　練習1
+    bb_img = pg.Surface((20, 20)) #円の生成　練習2
+    pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
+    bb_img.set_colorkey((0, 0, 0))
+    bb_rct = bb_img.get_rect()
+    bb_rct.center = (300, 200)
 
     while True:
         for event in pg.event.get():
@@ -35,6 +40,8 @@ def main():
             sum_mv = DELTA["K_RIGHT"]
         kk_rct.move_ip(sum_mv)
         screen.blit(kk_img, kk_rct)
+        screen.blit(bb_img, bb_rct) #ばくだんのblit
+        bb_rct.move_ip()
         pg.display.update() #画面の更新
         tmr += 1
         clock.tick(50)
