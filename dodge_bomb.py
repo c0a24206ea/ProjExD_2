@@ -9,6 +9,22 @@ WIDTH, HEIGHT = 1100, 650
 DELTA = {pg.K_UP : (0,-5) , pg.K_DOWN : (0,+5), pg.K_LEFT : (-5,0), pg.K_RIGHT : (5,0) }  #辞書生成　練習1
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
+    """
+    引数：こうかとんRectかばくだんRect
+    戻り値：判定結果のタプル（たてよこ）
+    画面内：True 画面外：False
+    """
+    yoko, tate = True, True
+    if rct.left < 0 or WIDTH < rct.right:  #画面内(横方向)の判定
+        yoko = False
+    if rct.top < 0 or HEIGHT < rct.bottom:  #画面内(縦方向)の判定
+        tate = False
+    return yoko, tate
+
+
+
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -21,6 +37,7 @@ def main():
     bb_img = pg.Surface((20, 20))  #円の生成　練習2
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
     bb_img.set_colorkey((0, 0, 0))
+    vx, vy = +5, -5
     bb_rct = bb_img.get_rect()
     bb_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     clock = pg.time.Clock()
@@ -40,8 +57,18 @@ def main():
                 sum_mv[0] += mv[0]
                 sum_mv[1] += mv[1]
         kk_rct.move_ip(sum_mv)
-        bb_rct.move_ip(+5, -5)
+
+        if check_bound(kk_rct) != (True, True):
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         screen.blit(kk_img, kk_rct)
+        bb_rct.move_ip(vx, vy)
+
+        yoko, tate = check_bound(bb_rct)
+        if not yoko: #左右のはみ出し
+            vx *= -1
+        if not tate:
+            vy *= -1
+
         screen.blit(bb_img, bb_rct)
         pg.display.update()
         tmr += 1
