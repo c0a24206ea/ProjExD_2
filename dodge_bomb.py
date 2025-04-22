@@ -8,10 +8,8 @@ import time
 WIDTH, HEIGHT = 1100, 650
 DELTA = {pg.K_UP : (0,-5) , pg.K_DOWN : (0,+5), pg.K_LEFT : (-5,0), pg.K_RIGHT : (5,0) }  #辞書生成　練習1
 
-    #bb_img = bb_imgs[min(tmr//500, 9)]tmrに応じて増加
-
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
+bb_accs = [a for a in range(1,11)]
 def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
     """
     引数：こうかとんRectかばくだんRect
@@ -27,6 +25,7 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
 
 def gameover(screen: pg.Surface) -> None:
     """
+    演習1
     gameoverになった際の判定
     引数：Screen
     画面を暗くする、こうかとん、GameOverの表示
@@ -47,13 +46,32 @@ def gameover(screen: pg.Surface) -> None:
 
     pg.display.update()
     time.sleep(5)
-    
+
+def acc(bb_imgs: list):
+    """
+    演習2
+    時間とともに爆弾を大きくしていく
+    引数：りすと
+    戻り値：円の大きさの段階を指し示す
+    """
+    for r in range(1, 11):
+        bb_img = pg.Surface((20*r, 20*r))
+        pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
+        bb_imgs.append(bb_img)
+    return bb_imgs
+
+def get_kk_img(sum_mv: tuple, [int, int]) -> pg.Surface:
+    if sum_mv[0] == 0 and sum_mv[1] == -5:
+        pg.transform.rotate(kk_img, )
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("fig/pg_bg.jpg")    
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
+    #kk_img = get_kk_img((0, 0))
+    #kk_img = get_kk_img(tuple(sum_mv))
     kk_rct = kk_img.get_rect()
     kk_rct.center = 300, 200
     tmr = 0
@@ -62,11 +80,6 @@ def main():
 
     bb_img = pg.Surface((20, 20))  #円の生成　練習2
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
-
-    #for r in range(1, 11):
-            #bb_img = pg.Surface((20*r, 20*r))
-    #pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
-    bb_img.set_colorkey((0, 0, 0))
     bb_rct = bb_img.get_rect()
     bb_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     clock = pg.time.Clock()
@@ -88,7 +101,6 @@ def main():
         
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
-
         for key, mv in DELTA.items():
             if key_lst[key]:
                 sum_mv[0] += mv[0]
@@ -109,6 +121,10 @@ def main():
         if not tate:
             vy *= -1
 
+        bb_imgs = []
+        acc(bb_imgs)
+        bb_img = bb_imgs[min(tmr//500, 9)]
+        bb_img.set_colorkey((0, 0, 0))
         screen.blit(bb_img, bb_rct)
         pg.display.update()
         tmr += 1
